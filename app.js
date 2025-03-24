@@ -41,6 +41,11 @@ app.get("/listings",async (req,res)=>{
     res.render("listings/index.ejs",{allListing});
 });
 
+// NEW LISTING ROUTE
+app.get("/listings/new",(req,res)=>{
+    res.render("listings/new.ejs");
+});
+
 // SHOW ALL ROUTE
 app.get("/listings/:id",async (req,res)=>{
     let {id} = req.params;
@@ -48,9 +53,13 @@ app.get("/listings/:id",async (req,res)=>{
     res.render("listings/show.ejs",{listing});
 });
 
-// NEW LISTING ROUTE
-app.get("/listings/new",(req,res)=>{
-    
+// CREATE ROUTE
+app.post("/listings",async (req,res)=>{
+    // let {title,description,image,price,location,country} = req.body;
+    let {listing} = req.body;
+    await Listing.insertOne(listing);
+    console.log("Data was inserted ");
+    res.redirect("/listings");
 });
 
 app.get("/",(req,res)=>{

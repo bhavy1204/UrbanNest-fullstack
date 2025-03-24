@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanNest</title>
+</head>
+
+<body>
+    <h1>All buildings</h1>
+    <form action="/listings/new" method="get">
+        <button>Create New Listing</button>
+    </form>
+    <ul>
+        <% for(let listing of allListing){ %>
+            <li>
+                <a href="/listings/<%= listing._id %>"><%= listing.title %></a>  
+            </li>
+        <% } %>
+    </ul>
+</body>
+
+</html>

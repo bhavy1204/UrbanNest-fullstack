@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UrbanNest</title>
-</head>
-
+<% layout("/layouts/boilerplate") %>
 <body>
-    <h1>All buildings</h1>
+    <h4>All buildings</h4>
     <form action="/listings/new" method="get">
         <button>Create New Listing</button>
     </form>
@@ -20,5 +12,3 @@
         <% } %>
     </ul>
 </body>
-
-</html>

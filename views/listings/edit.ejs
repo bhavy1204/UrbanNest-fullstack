@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanNest</title>
+</head>
+<body>
+    <form method="post" action="/listings/<%= listing._id %>?_method=PUT">
+        <input name="listing[title]" value="<%= listing.title %>" type="text"> <br>
+        <textarea name="listing[description]" value="<%= listing.description %>"></textarea> <br>
+        <input name="listing[image]" value="<%= listing.image %>" type="text"> <br>
+        <input name="listing[price]" value="<%= listing.price %>" type="number"> <br>
+        <input name="listing[location]" value="<%= listing.location %>" type="text"> <br>
+        <input name="listing[country]" value="<%= listing.country %>" type="text"> <br>
+        <button>Save edits</button>
+    </form>
+</body>
+</html>

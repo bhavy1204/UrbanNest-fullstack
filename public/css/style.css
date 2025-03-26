@@ -1,0 +1,51 @@
+/* *{
+    margin: 0;
+    padding: 0;
+} */
+
+body{
+    background-color: rgb(169, 169, 217);
+}
+.navbar{
+    height: 5rem;
+    background-color: #fff;
+}
+.fa-hotel{
+    color: #fe1b2ada;
+    font-size: 2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+}
+
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+}
+.f-info-links a:hover{
+    text-decoration: underline;
+    color: #000000;
+}
+.f-info-links{
+    width: 100%;
+}
+.f-info-social , .f-info-brand{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.f-info-social i{
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+.f-info{
+    text-align: center;
+    display: flex;
+    height:  8rem;
+    background-color: rgb(225, 222, 222);
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}

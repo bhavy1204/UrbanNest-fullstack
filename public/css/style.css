@@ -98,3 +98,22 @@ body{
 .edit-btn{
     background-color: #fe1b2ada !important;
 }
+
+/* Particular listing page */
+
+.show-img{
+    height: 30vh;
+}
+
+.edit-btn{
+    background-color:#fe1b2ada !important ;
+}
+
+.btns{
+    display: flex;
+}
+
+.show-card{
+    padding-left: 0;
+    padding-right: 0;
+}

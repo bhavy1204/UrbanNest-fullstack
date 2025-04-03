@@ -63,10 +63,14 @@ app.post("/listings",async (req,res)=>{
     // await Listing.insertOne(listing);
     // console.log("Data was inserted ");
     // res.redirect("/listings");
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    console.log(newListing);
-    res.redirect("/listings");
+    try{
+        const newListing = new Listing(req.body.listing);
+        await newListing.save();
+        console.log(newListing);
+        res.redirect("/listings");
+    }catch(err){
+        next(err);
+    }
 });
 
 
@@ -93,7 +97,11 @@ app.delete("/listings/:id",async (req,res)=>{
 
 app.get("/",(req,res)=>{
     res.send("Home route");
-})
+});
+
+app.use((err,req,res,next)=>{
+    res.send("SOmethhing Went Wrong :( ");
+});
 
 app.listen("3000",()=>{
     console.log("Port 3000 working");

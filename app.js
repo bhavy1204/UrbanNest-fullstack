@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 
 const validateListing = (req,res,next)=>{
-    let error = listingSchema.validate(req.body);
+    let {error} = listingSchema.validate(req.body);
     if(error){
         let errMsg = error.details.map((el)=>el.message).join(", ");
         throw new ExpressError(400,errMsg);
@@ -85,13 +85,13 @@ app.post("/listings", validateListing,wrapAsync(async (req, res) => {
 
 
 // Update route
-app.get("/listings/:id/edit", validateListing,wrapAsync(async (req, res) => {
+app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/edit.ejs", { listing });
 }));
 
-app.put("/listings/:id", wrapAsync(async (req, res) => {
+app.put("/listings/:id", validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     res.redirect(`/listings/${id}`);

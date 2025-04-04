@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const {listingSchema} = require("./schema.js");
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -41,6 +42,16 @@ app.use(express.static(path.join(__dirname, "/public")));
 // });
 
 
+const validateListing = (req,res,next)=>{
+    let error = listingSchema.validate(req.body);
+    if(error){
+        let errMsg = error.details.map((el)=>el.message).join(", ");
+        throw new ExpressError(400,errMsg);
+    }
+    else
+        next();
+}
+
 // INDEX ROUTE
 app.get("/listings", wrapAsync(async (req, res) => {
     let allListing = await Listing.find({});
@@ -60,23 +71,12 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
 }));
 
 // CREATE ROUTE
-app.post("/listings", wrapAsync(async (req, res) => {
+app.post("/listings", validateListing,wrapAsync(async (req, res) => {
     // let {title,description,image,price,location,country} = req.body;
     // let {listing} = req.body;
     // await Listing.insertOne(listing);
     // console.log("Data was inserted ");
     // res.redirect("/listings");
-    if(!req.body.listing)
-        throw new ExpressError(400,"Send valid data for listing");
-    const { title, description, image, price, location, country } = req.body.listing;
-    if(!description)
-        throw new ExpressError(400,"Description is missing");
-    if(!price)
-        throw new ExpressError(400,"Price is missing");
-    if(!location)
-        throw new ExpressError(400,"Location is missing");
-    if(!country)
-        throw new ExpressError(400,"Country is missing");
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     console.log(newListing);
@@ -85,12 +85,9 @@ app.post("/listings", wrapAsync(async (req, res) => {
 
 
 // Update route
-app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
+app.get("/listings/:id/edit", validateListing,wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
-    if(!listing){
-        throw new ExpressError(400,"Send valid data for listing");
-    }
     res.render("listings/edit.ejs", { listing });
 }));
 

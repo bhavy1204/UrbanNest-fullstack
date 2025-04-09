@@ -42,6 +42,10 @@
             </form>
             <hr>
             <h3>Reviews...</h3>
-            <p><%= listing.reviews %></p>
+            <ul>
+                <% for(review of listing.reviews) {%>
+                    <li> <%= review.comment, review.rating %></li>
+                 <% } %>
+            </ul>
         </div>
     </div>

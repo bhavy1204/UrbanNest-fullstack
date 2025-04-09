@@ -1,7 +1,9 @@
 <% layout("/layouts/boilerplate") %>
     <div class="row">
         <div class="col-8 offset-3 mt-3">
-            <h3><%= listing.title %></h3>
+            <h3>
+                <%= listing.title %>
+            </h3>
         </div>
         <div class="card col-6 offset-3 show-card">
             <img src="<%= listing.image %>" class="card-img-top show-img" alt="listing_image">
@@ -25,16 +27,21 @@
         <div class="col-8 offset-3">
             <hr>
             <h4>Leave a review</h4>
-            <form action="/listings/<%= listing._id %>/review" method="POST">
+            <form action="/listings/<%= listing._id %>/review" method="POST" novalidate class="needs-validation">
                 <div class="mb-3 mt-3">
                     <label for="rating" class="form-label">Rating</label>
-                    <input type="range" min="1" max="5" name="review[rating]" id="rating" class="form-range" >
+                    <input type="range" min="1" max="5" name="review[rating]" id="rating" class="form-range">
                 </div>
                 <div class="mb-3 mt-3">
                     <label for="comment" class="form-label">Comment</label>
-                    <textarea name="review[comment]" id="comment" cols="30" rows="6" class="form-control"> </textarea>
+                    <textarea name="review[comment]" id="comment" cols="30" rows="6" class="form-control"
+                        required ></textarea>
+                        <div class="invalid-feedback">Please Submit some comments</div>
                 </div>
                 <button class="btn btn-outline-dark">Submit</button>
             </form>
+            <hr>
+            <h3>Reviews...</h3>
+            <p><%= listing.reviews %></p>
         </div>
     </div>

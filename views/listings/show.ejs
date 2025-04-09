@@ -44,7 +44,7 @@
             <h3>Reviews...</h3>
             <ul>
                 <% for(review of listing.reviews) {%>
-                    <li> <%= review.comment, review.rating %></li>
+                    <li> <%= review.comment%> , <%= review.rating %> Stars</li>
                  <% } %>
             </ul>
         </div>

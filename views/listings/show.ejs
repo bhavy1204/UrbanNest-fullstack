@@ -5,7 +5,7 @@
                 <%= listing.title %>
             </h3>
         </div>
-        <div class="card col-6 offset-3 show-card">
+        <div class="card col-6 offset-3 show-card listing-card">
             <img src="<%= listing.image %>" class="card-img-top show-img" alt="listing_image">
             <div class="card-body">
 
@@ -35,17 +35,26 @@
                 <div class="mb-3 mt-3">
                     <label for="comment" class="form-label">Comment</label>
                     <textarea name="review[comment]" id="comment" cols="30" rows="6" class="form-control"
-                        required ></textarea>
-                        <div class="invalid-feedback">Please Submit some comments</div>
+                        required></textarea>
+                    <div class="invalid-feedback">Please Submit some comments</div>
                 </div>
                 <button class="btn btn-outline-dark">Submit</button>
             </form>
             <hr>
-            <h3>Reviews...</h3>
-            <ul>
+            <p><b>All Reviews</b></p>
+            <div class="row">
                 <% for(review of listing.reviews) {%>
-                    <li> <%= review.comment%> , <%= review.rating %> Stars</li>
-                 <% } %>
-            </ul>
+                    <div class="card col-5 ms-3 mb-3 ">
+                        <div class="card-body">
+                            <h5 class="card-title">User</h5>
+                            <p class="card-text"><%= review.comment %></p>
+                            <p class="card-text"><%= review.rating %> -Stars</p>
+                        </div>
+                        <form action="/listings/<%= listing._id %>/review/<%= review._id %>?_method=DELETE" method="post" class="mb-3">
+                            <button class="btn btn-sm btn-dark">Delete</button>
+                        </form>
+                    </div>
+                <% } %>
+            </div>
         </div>
     </div>

@@ -130,6 +130,17 @@ app.post("/listings/:id/review", validateReview, wrapAsync(async (req,res)=>{
     res.redirect(`/listings/${listing._id}`);
 }));
 
+// DELETE ROUTE FOR REVIEW 
+app.delete("/listings/:id/review/:reviewId", wrapAsync(async (req,res)=>{
+    let {id,reviewId} = req.params;
+
+    await Listing.findByIdAndUpdate(id, {$pull: {reviews:reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+
+    res.redirect(`/listings/${id}`);
+}));
+
+
 app.get("/", (req, res) => {
     res.send("Home route");
 });

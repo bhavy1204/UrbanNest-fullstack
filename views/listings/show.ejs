@@ -32,8 +32,8 @@
                     <label for="rating" class="form-label">Rating</label>
                     <div class="star-rating">
                         <% for (let i = 5; i >=1; i--) { %>
-                            <label for="star<%= i %>">&#9733;</label>
                             <input type="radio" name="review[rating]" id="star<%= i %>" value="<%= i %>">
+                            <label for="star<%= i %>">&#9733;</label>
                         <% } %>
                     </div>
                     <!-- <input type="range" min="1" max="5" name="review[rating]" id="rating" class="form-range"> -->

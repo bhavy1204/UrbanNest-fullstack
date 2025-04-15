@@ -123,7 +123,7 @@ body{
     font-size: 2rem;
     direction: ltr;
     display: flex;
-    flex-direction: row-reverse; /* <- Important for hover effect */
+    flex-direction: row-reverse;
     justify-content: start;
 }
 
@@ -149,6 +149,6 @@ body{
 }
 
 .star-rating input[type="radio"]:checked + label,
-.star-rating input[type="radio"]:checked + label ~ label {
+.star-rating input[type="radio"]:checked ~ label ~ label {
     color: gold;
 }

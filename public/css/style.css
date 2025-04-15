@@ -117,3 +117,38 @@ body{
     padding-left: 0;
     padding-right: 0;
 }
+
+/* Star rating in reviews */
+.star-rating {
+    font-size: 2rem;
+    direction: ltr;
+    display: flex;
+    flex-direction: row-reverse; /* <- Important for hover effect */
+    justify-content: start;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+/* Hover effect: highlight stars to the left */
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: gold;
+}
+
+/* Checked effect: highlight selected + all before */
+.star-rating input[type="radio"]:checked ~ label {
+    color: #ddd;
+}
+
+.star-rating input[type="radio"]:checked + label,
+.star-rating input[type="radio"]:checked + label ~ label {
+    color: gold;
+}

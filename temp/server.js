@@ -49,3 +49,11 @@ app.listen(3000,()=>{
 
 // Tampering :Kisis chiz ke saath chedkani karna usko change kar dena 
 // Signed cokkie : Cokkies which is verified or have some seal type of thing..? 
+
+
+// Jab bhi client serever ke sath interact karta hai to us ek single interaction ko session kehte hai.
+// stateful and stateless protocol
+// Http is by-deafult a stateless protocol i.e no state are saved btw interaction of client-server
+
+
+// Express session jo bhi user aa rahe hai unke liye session se related chize jese id etc vo store karke rakhta hai aur broweser jo ki users ke paas hai unme puri ya saari details nhi bhejega balki sirf session id send karega aur browseeer me esi chize cokkies ki help se save hoti hai. to actually iski need kya hai..? Man lo jese ki apan ne page me kuch kaam ya koi bhi data store kara aur usi me dusre page me chale gaye to ab kyuki http ek stateless protocol hai to vo kuch bhi save nhi karegi aur bhul jayegi. Isko solve karne ke liye apan cookies aur sessions banate hai :) 

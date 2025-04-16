@@ -45,3 +45,7 @@ app.use((err, req, res, next) => {
 app.listen("3000", () => {
     console.log("Port 3000 working");
 });
+
+// COOKIES / WEB COKKIES / HTTP COOKIES 
+// cookies are tiny block/chunk of data stored in browser. bascially if we do any personalization or anything temperorialy than browser needs to remember it.. Like if we choose dark theme than everyy page shoud be in dark theme, We added few prod in cart aandd than went to next page but browser still needs to remeber that we added those products before, Like if we login in one page of a social mmeddia app than we will be logged in all pages which is authentication process took lace with help of cookies
+// Cookies are stored in name value pair. We can see them in => Inspect -> application -> Storage

@@ -19,21 +19,21 @@ const validateListing = (req,res,next)=>{
 }
 
 // INDEX ROUTE
-router.get("/listings", wrapAsync(async (req, res) => {
+router.get("/", wrapAsync(async (req, res) => {
     let allListing = await Listing.find({});
-    res.render("index.ejs", { allListing });
+    res.render("listings/index.ejs", { allListing });
 }));
 
 // NEW LISTING ROUTE
 router.get("/new", (req, res) => {
-    res.render("new.ejs");
+    res.render("listings/new.ejs");
 });
 
 // SHOW ALL ROUTE
 router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id).populate("reviews");
-    res.render("show.ejs", { listing });
+    res.render("listings/show.ejs", { listing });
 }));
 
 // CREATE ROUTE
@@ -54,7 +54,7 @@ router.post("/", validateListing, wrapAsync(async (req, res) => {
 router.get("/:id/edit", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
-    res.render("edit.ejs", { listing });
+    res.render("listings/edit.ejs", { listing });
 }));
 
 router.put("/:id", validateListing, wrapAsync(async (req, res) => {

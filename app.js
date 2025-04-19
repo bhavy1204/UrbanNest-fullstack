@@ -7,6 +7,9 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
 
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
@@ -45,6 +48,15 @@ app.get("/", (req, res) => {
 
 app.use(session(sessionOptions));
 app.use(flash());
+
+// We need to define passpoet here bcz passport will use sessions in order to save details of a individual for a session. So session must be there.
+
+app.use(passport.initialize());
+app.use(passport.session()); // By this middleware we are ensuuring that user doest have to login again and again in a single session
+passport.use(new LocalStrategy(User.authenticate()));// This line basically mena sthat jiitne bhi user aaye vo LocalStrategy ke through authenticate hone chaiye , Aur unko authenticate karne ke liye "authenticate()" method use karenege 
+
+passport.serializeUser(User.serializeUser()); //Storing user details in a session is cled seriallize
+passport.deserializeUser(User.deserializeUser()); //De-Storing user details in a session is cled deseriallize
 
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");

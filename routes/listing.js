@@ -6,6 +6,7 @@ const Listing = require("../models/listing.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const {listingSchema,reviewSchema} = require("../schema.js");
+const { isloggedin } = require("../middleware.js");
 
 // SERVER SIDE VALIDATION FOR LISTINGS
 const validateListing = (req,res,next)=>{
@@ -25,7 +26,14 @@ router.get("/", wrapAsync(async (req, res) => {
 }));
 
 // NEW LISTING ROUTE
-router.get("/new", (req, res) => {
+router.get("/new",  isloggedin, (req, res) => {
+    // console.log(req.user); // jo request hoti hai usme user related information saved hoti hai. 
+    // //We want to check if the user is logged in before creatinh new listing so 
+    // if(!req.isAuthenticated()){
+    //     req.flash("error","Please log in to create listing");
+    //     return res.redirect("/login");
+    // }
+    //Now we want this same logic at time of updation deletion etc... So we will create a middleware for it.
     res.render("listings/new.ejs");
 });
 
@@ -41,7 +49,7 @@ router.get("/:id", wrapAsync(async (req, res) => {
 }));
 
 // CREATE ROUTE
-router.post("/", validateListing, wrapAsync(async (req, res) => {
+router.post("/", isloggedin,validateListing, wrapAsync(async (req, res) => {
     // let {title,description,image,price,location,country} = req.body;
     // let {listing} = req.body;
     // await Listing.insertOne(listing);
@@ -56,13 +64,13 @@ router.post("/", validateListing, wrapAsync(async (req, res) => {
 
 
 // Update route
-router.get("/:id/edit", wrapAsync(async (req, res) => {
+router.get("/:id/edit", isloggedin,wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/edit.ejs", { listing });
 }));
 
-router.put("/:id", validateListing, wrapAsync(async (req, res) => {
+router.put("/:id", isloggedin,validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     req.flash("success","Listing updated Successfully");

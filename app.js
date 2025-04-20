@@ -15,6 +15,7 @@ const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const usersRouter = require("./routes/users.js");
 const user = require("./models/user.js");
+const {isloggedin} = require("./middleware.js");
 
 app.use(express.urlencoded({ extended: true }));
 

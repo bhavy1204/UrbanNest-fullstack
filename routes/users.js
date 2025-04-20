@@ -15,7 +15,7 @@ router.post("/signup", wrapAsync(async (req, res) => {
         let { username, email, password } = req.body;
         const newUser = new User({ email, username });
         const registerdUser = await User.register(newUser, password);
-        console.log(registerdUser);
+        // console.log(registerdUser);
         req.flash("success", "registerd Successfully !");
         res.redirect("/listings");
     } catch (err) {
@@ -38,5 +38,16 @@ router.post("/login",
         res.redirect("/listings");
     }
 );
+
+// Logout.. It will delete user info from session making it logout.. With help of passport
+router.get("/logout",(req,res,next)=>{
+    req.logout((err)=>{
+        if(err){
+            next(err);
+        }
+        req.flash("success","logged out");
+        res.redirect("/listings");
+    })
+});
 
 module.exports = router;

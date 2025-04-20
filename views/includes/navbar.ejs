@@ -10,6 +10,18 @@
                 <a class="nav-link" href="/listings">All Listings</a>
                 <a class="nav-link" href="/listings/new">Add Listing</a>
             </div>
+
+            <div class="navbar-nav ms-auto">
+                <!-- We can not access req directly here so we will store them in locals -->
+                <% if(!currentUser) { %> 
+                    <a class="nav-link" href="/signup">Sign up</a>
+                    <a class="nav-link" href="/login">Login</a>
+                <% } %>
+                <% if(currentUser){ %>
+                    <a class="nav-link" href="/logout">Logout</a>
+                <% } %>
+            </div>
+
         </div>
     </div>
 </nav>

@@ -64,18 +64,20 @@ passport.deserializeUser(User.deserializeUser()); //De-Storing user details in a
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currentUser = req.user; //To access the "req.user" in "navbar.ejs"
     next();
 });
 
-app.get("/demouser" , async (req,res)=>{
-    let fakeUser = new User({
-        email : "tempemail@gmail.com",
-        username:"Bhavy1204"
-    });
-    let registerdUser = await User.register(fakeUser,"mypassowrd"); //(user,password)
-    console.log(registerdUser);
-    res.send(registerdUser);
-});
+
+// app.get("/demouser" , async (req,res)=>{
+//     let fakeUser = new User({
+//         email : "tempemail@gmail.com",
+//         username:"Bhavy1204"
+//     });
+//     let registerdUser = await User.register(fakeUser,"mypassowrd"); //(user,password)
+//     console.log(registerdUser);
+//     res.send(registerdUser);
+// });
 
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/review/", reviewsRouter);

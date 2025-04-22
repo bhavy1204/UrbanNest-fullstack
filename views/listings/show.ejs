@@ -16,14 +16,12 @@
                 <p class="card-text"> <%= listing.country %> </p>
             </div>
         </div>
-        <% if(currentUser && currentUser._id.equals(listing.owner._id)){ %>
         <div class="btns mb-5">
             <a class="btn btn-dark edit-btn col-1 offset-3" href="/listings/<%= listing._id %>/edit">Edit</a>
             <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
                 <button class="btn btn-dark offset-5">Delete</button>
             </form>
         </div>
-        <% } %>
         <div class="col-8 offset-3">
             <hr>
             <h4>Leave a review</h4>

@@ -15,6 +15,7 @@ main().then(()=>{
 
 const initDB = async ()=>{
     await Listing.deleteMany({});
+    initData.data = initData.data.map((obj)=>({...obj,owner:"680460519e8efb4ab63bcc3d"})); //To initialize listings with the owner... Here we are doing that all listing have only one owner. 
     await Listing.insertMany(initData.data);
     console.log("Database was initialized");
 };

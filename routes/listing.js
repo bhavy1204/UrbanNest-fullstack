@@ -40,11 +40,12 @@ router.get("/new",  isloggedin, (req, res) => {
 // SHOW ALL ROUTE
 router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
+    const listing = await Listing.findById(id).populate("reviews").populate("owner");
     if(!listing){
         req.flash("error","Listing you requested was not found");
         res.redirect("/listings");
     }
+    console.log(listing);
     res.render("listings/show.ejs", { listing });
 }));
 
@@ -56,9 +57,9 @@ router.post("/", isloggedin,validateListing, wrapAsync(async (req, res) => {
     // console.log("Data was inserted ");
     // res.redirect("/listings");
     const newListing = new Listing(req.body.listing);
+    newListing.owner = req.user._id; //To create a listing with the logged in user id.
     await newListing.save();
     req.flash("success","Listing Added Successfully");
-    console.log(newListing);
     res.redirect("/listings");
 }));
 

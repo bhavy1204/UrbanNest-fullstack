@@ -9,6 +9,9 @@ const {listingSchema,reviewSchema} = require("../schema.js");
 const { isloggedin } = require("../middleware.js");
 const {isowner} = require("../middleware.js");
 
+// controllers
+const listingContoller = require("../controllers/listing.js");
+
 // SERVER SIDE VALIDATION FOR LISTINGS
 const validateListing = (req,res,next)=>{
     let {error} = listingSchema.validate(req.body);
@@ -21,72 +24,24 @@ const validateListing = (req,res,next)=>{
 }
 
 // INDEX ROUTE
-router.get("/", wrapAsync(async (req, res) => {
-    let allListing = await Listing.find({});
-    res.render("listings/index.ejs", { allListing });
-}));
+router.get("/", wrapAsync(listingContoller.index));
 
 // NEW LISTING ROUTE
-router.get("/new",  isloggedin, (req, res) => {
-    // console.log(req.user); // jo request hoti hai usme user related information saved hoti hai. 
-    // //We want to check if the user is logged in before creatinh new listing so 
-    // if(!req.isAuthenticated()){
-    //     req.flash("error","Please log in to create listing");
-    //     return res.redirect("/login");
-    // }
-    //Now we want this same logic at time of updation deletion etc... So we will create a middleware for it.
-    res.render("listings/new.ejs");
-});
+router.get("/new",  isloggedin, listingContoller.renderNewForm);
 
 // SHOW ALL ROUTE
-router.get("/:id", wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id).populate({path:"reviews", populate:{path:"author",},}).populate("owner");
-    if(!listing){
-        req.flash("error","Listing you requested was not found");
-        res.redirect("/listings");
-    }
-    console.log(listing);
-    res.render("listings/show.ejs", { listing });
-}));
+router.get("/:id", wrapAsync(listingContoller.showListing));
 
 // CREATE ROUTE
-router.post("/", isloggedin,validateListing, wrapAsync(async (req, res) => {
-    // let {title,description,image,price,location,country} = req.body;
-    // let {listing} = req.body;
-    // await Listing.insertOne(listing);
-    // console.log("Data was inserted ");
-    // res.redirect("/listings");
-    const newListing = new Listing(req.body.listing);
-    newListing.owner = req.user._id; //To create a listing with the logged in user id.
-    await newListing.save();
-    req.flash("success","Listing Added Successfully");
-    res.redirect("/listings");
-}));
-
+router.post("/", isloggedin,validateListing, wrapAsync(listingContoller.createListing));
 
 // Update route
-router.get("/:id/edit", isloggedin,isowner,wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/edit.ejs", { listing });
-}));
+router.get("/:id/edit", isloggedin,isowner,wrapAsync(listingContoller.renderUpdateForm));
 
-router.put("/:id", isloggedin,isowner,validateListing, wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    req.flash("success","Listing updated Successfully");
-    res.redirect(`/listings/${id}`);
-}));
+router.put("/:id", isloggedin,isowner,validateListing, wrapAsync(listingContoller.updateListing));
 
 // DELETE ROUTE 
-router.delete("/:id",isloggedin, isowner,wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let deletedListing = await Listing.findByIdAndDelete(id);
-    req.flash("success","Listing deleted successfully");
-    console.log(deletedListing);
-    res.redirect("/listings");
-}));
+router.delete("/:id",isloggedin, isowner,wrapAsync(listingContoller.deleteListing));
 
 module.exports = router;
 

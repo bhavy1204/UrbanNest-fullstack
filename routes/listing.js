@@ -9,12 +9,13 @@ const {listingSchema,reviewSchema} = require("../schema.js");
 const { isloggedin } = require("../middleware.js");
 const {isowner} = require("../middleware.js");
 
-// For multipart form data parsing
-const multer  = require('multer');
-const upload = multer({ dest: 'uploads/' });
-
 // controllers
 const listingContoller = require("../controllers/listing.js");
+
+// For multipart form data parsing
+const multer  = require('multer');
+const {storage} = require("../cloudConfig.js");
+const upload = multer({ storage }); //multer will store files by deafult in "storage"
 
 // SERVER SIDE VALIDATION FOR LISTINGS
 const validateListing = (req,res,next)=>{

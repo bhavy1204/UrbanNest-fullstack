@@ -1,3 +1,8 @@
+if(process.env.NODE_ENV!="production"){ //ensuring that we dont deploy our env fies in production level.
+    require('dotenv').config();
+}
+
+
 const express = require("express");
 const mongoose = require('mongoose');
 const app = express();

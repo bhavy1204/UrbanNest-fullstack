@@ -9,6 +9,10 @@ const {listingSchema,reviewSchema} = require("../schema.js");
 const { isloggedin } = require("../middleware.js");
 const {isowner} = require("../middleware.js");
 
+// For multipart form data parsing
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
 // controllers
 const listingContoller = require("../controllers/listing.js");
 
@@ -33,7 +37,11 @@ router.get("/new",  isloggedin, listingContoller.renderNewForm);
 router.get("/:id", wrapAsync(listingContoller.showListing));
 
 // CREATE ROUTE
-router.post("/", isloggedin,validateListing, wrapAsync(listingContoller.createListing));
+router.post("/",upload.single('listing[image]'),(req,res)=>{
+    // res.send(req.body);
+    res.send(req.file); // in multer
+});//("/", isloggedin,validateListing, wrapAsync(listingContoller.createListing));
+
 
 // Update route
 router.get("/:id/edit", isloggedin,isowner,wrapAsync(listingContoller.renderUpdateForm));

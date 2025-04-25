@@ -46,7 +46,9 @@ module.exports.createListing = async (req, res) => {
 module.exports.renderUpdateForm = async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
-    res.render("listings/edit.ejs", { listing });
+    let orginialUrl = listing.image.url;
+    orginialUrl.replace("/upload","/upload/h_300,w_250"); //Making iamge blur for faster and effiect working.
+    res.render("listings/edit.ejs", { listing , orginialUrl});
 }
 
 module.exports.updateListing = async (req, res) => {

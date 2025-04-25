@@ -2,6 +2,7 @@ if(process.env.NODE_ENV!="production"){ //ensuring that we dont deploy our env f
     require('dotenv').config();
 }
 
+const DB_URL = process.env.ATLASDB_URL;
 
 const express = require("express");
 const mongoose = require('mongoose');
@@ -25,7 +26,8 @@ const {isloggedin} = require("./middleware.js");
 app.use(express.urlencoded({ extended: true }));
 
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/UrbanNest');
+    // await mongoose.connect('mongodb://127.0.0.1:27017/UrbanNest');
+    await mongoose.connect(DB_URL);
 }
 main().then(() => {
     console.log("MongoDB connnected");
@@ -50,9 +52,9 @@ const sessionOptions={
     }
 }
 
-app.get("/", (req, res) => {
-    res.send("Home route");
-});
+// app.get("/", (req, res) => {
+//     res.send("Home route");
+// });
 
 app.use(session(sessionOptions));
 app.use(flash());

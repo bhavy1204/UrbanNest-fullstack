@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV!="production"){ //ensuring that we dont deploy our env fies in production level.
+if (process.env.NODE_ENV != "production") { //ensuring that we dont deploy our env fies in production level.
     require('dotenv').config();
 }
 
@@ -12,6 +12,10 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+
+//For production session:-
+const MongoStore = require('connect-mongo');
+
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -21,7 +25,7 @@ const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const usersRouter = require("./routes/users.js");
 const user = require("./models/user.js");
-const {isloggedin} = require("./middleware.js");
+const { isloggedin } = require("./middleware.js");
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -41,14 +45,28 @@ app.set("views", path.join(__dirname, "views"));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
 
-const sessionOptions={
-    secret:"secretcode",
-    resave : false,
-    saveUninitialized : true,
-    cookie:{
-        expires: Date.now() +(7*24*60*60*1000),
-        maxAge:7*24*60*60*1000,
-        httpOnly:true
+// This is used to create actual session on production level
+const store = MongoStore.create({
+    mongoUrl: DB_URL,
+    crypto: {
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24 * 60 * 60 ,
+});
+
+store.on("error",()=>{
+    console.log("Error in mongo session store : ",err);
+});
+
+const sessionOptions = {
+    store : store,
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + (7 * 24 * 60 * 60 * 1000),
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true
     }
 }
 
@@ -63,12 +81,13 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session()); // By this middleware we are ensuuring that user doest have to login again and again in a single session
+
 passport.use(new LocalStrategy(User.authenticate()));// This line basically mena sthat jiitne bhi user aaye vo LocalStrategy ke through authenticate hone chaiye , Aur unko authenticate karne ke liye "authenticate()" method use karenege 
 
 passport.serializeUser(User.serializeUser()); //Storing user details in a session is cled seriallize
 passport.deserializeUser(User.deserializeUser()); //De-Storing user details in a session is cled deseriallize
 
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currentUser = req.user; //To access the "req.user" in "navbar.ejs"
@@ -103,6 +122,6 @@ app.listen("3000", () => {
     console.log("Port 3000 working");
 });
 
-// COOKIES / WEB COKKIES / HTTP COOKIES 
+// COOKIES / WEB COKKIES / HTTP COOKIES
 // cookies are tiny block/chunk of data stored in browser. bascially if we do any personalization or anything temperorialy than browser needs to remember it.. Like if we choose dark theme than everyy page shoud be in dark theme, We added few prod in cart aandd than went to next page but browser still needs to remeber that we added those products before, Like if we login in one page of a social mmeddia app than we will be logged in all pages which is authentication process took lace with help of cookies
 // Cookies are stored in name value pair. We can see them in => Inspect -> application -> Storage

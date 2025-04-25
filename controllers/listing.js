@@ -23,7 +23,7 @@ module.exports.showListing = async (req, res) => {
         req.flash("error","Listing you requested was not found");
         res.redirect("/listings");
     }
-    console.log(listing);
+    // console.log(listing);
     res.render("listings/show.ejs", { listing });
 }
 
@@ -51,7 +51,13 @@ module.exports.renderUpdateForm = async (req, res) => {
 
 module.exports.updateListing = async (req, res) => {
     let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    let listing= await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    if(typeof req.file !== "undefined"){
+        let url = req.file.path;
+        let filename = req.file.filename;
+        listing.image = {url,filename};
+        await listing.save();
+    }
     req.flash("success","Listing updated Successfully");
     res.redirect(`/listings/${id}`);
 }

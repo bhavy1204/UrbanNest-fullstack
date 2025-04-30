@@ -32,7 +32,7 @@
                     <button class="btn btn-dark offset-5">Delete</button>
                 </form>
             </div>
-            <%}%>
+        <%}%>
                 <div class="col-8 offset-3">
                     <% if(currentUser) {%>
                         <hr>
@@ -53,8 +53,8 @@
                             <div class="mb-3 mt-3">
                                 <label for="rating" class="form-label">Rating</label>
                                 <fieldset class="starability-slot">
-                                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1"
-                                        checked aria-label="No rating." />
+                                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]"
+                                        value="1" checked aria-label="No rating." />
                                     <input type="radio" id="first-rate1" name="review[rating]" value="1" />
                                     <label for="first-rate1" title="Terrible">1 star</label>
                                     <input type="radio" id="first-rate2" name="review[rating]" value="2" />
@@ -75,7 +75,9 @@
                             </div>
                             <button class="btn btn-outline-dark">Submit</button>
                         </form>
-                        <% } %>
+                        <% }if(!currentUser) { %>
+                            <h4>Please login to give review...</h4>
+                        <% } %> %>
                             <hr>
                             <p><b>All Reviews</b></p>
                             <div class="row">
@@ -90,13 +92,15 @@
                                                 <%= review.comment %>
                                             </p>
                                         </div>
+                                        <% if(currentUser && review.author._id.equals(currentUser._id)) {%>
                                         <form
                                             action="/listings/<%= listing._id %>/review/<%= review._id %>?_method=DELETE"
                                             method="post" class="mb-3">
                                             <button class="btn btn-sm btn-dark">Delete</button>
                                         </form>
+                                        <% } %>
                                     </div>
                             </div>
                 </div>
-                <% } %>
+                <% }%>
     </div>

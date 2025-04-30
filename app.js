@@ -54,7 +54,7 @@ const store = MongoStore.create({
     touchAfter: 24 * 60 * 60 ,
 });
 
-store.on("error",()=>{
+store.on("error",(err)=>{
     console.log("Error in mongo session store : ",err);
 });
 
@@ -88,10 +88,21 @@ passport.serializeUser(User.serializeUser()); //Storing user details in a sessio
 passport.deserializeUser(User.deserializeUser()); //De-Storing user details in a session is cled deseriallize
 
 app.use((req, res, next) => {
+    // console.log("WORKING !!!!!!!!!!!!");
+    res.locals.currentUser = req.user; //To access the "req.user" in "navbar.ejs"
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
-    res.locals.currentUser = req.user; //To access the "req.user" in "navbar.ejs"
     next();
+});
+
+app.get("/test", (req, res) => {
+    console.log("Inside /test route");
+    req.flash("success", "Test flash!");
+    res.redirect("/showflash");
+});
+
+app.get("/showflash", (req, res) => {
+    res.send(`Success: ${res.locals.success}`);
 });
 
 
@@ -118,7 +129,7 @@ app.use((err, req, res, next) => {
     res.render("error.ejs", { err });
 });
 
-app.listen("3000", () => {
+app.listen(3000, () => {
     console.log("Port 3000 working");
 });
 

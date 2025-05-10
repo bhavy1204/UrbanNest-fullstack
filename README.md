@@ -1,6 +1,6 @@
 # UrbanNest 🏡
 
-**UrbanNest** is a full-stack real estate web application where users can browse, list, review, and manage rental properties with ease. Built using the **MERN stack**, it features secure authentication, image hosting with Cloudinary, and role-based controls.
+**UrbanNest** is a full-stack hotel booking web application where users can browse, list, review, and manage hotels with ease. Built using the **MERN stack**, it features secure authentication, image hosting with Cloudinary, and role-based controls.
 
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)

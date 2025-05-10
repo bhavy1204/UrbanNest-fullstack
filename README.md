@@ -1,4 +1,4 @@
-# UrbanNest 🏡
+# UrbanNest 🏨
 
 **UrbanNest** is a full-stack hotel booking web application where users can browse, list, review, and manage hotels with ease. Built using the **MERN stack**, it features secure authentication, image hosting with Cloudinary, and role-based controls.
 
